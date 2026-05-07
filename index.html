@@ -41,7 +41,49 @@
                 <a href="bt50.html">Thông tin chi tiết</a>
             </div>
         </div>
+        <div class="contact-form" style="max-width: 600px; margin: 40px auto; padding: 30px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px;">
+            <h2 style="text-align: center; color: #8b5a5a; margin-bottom: 20px;">ĐĂNG KÝ TƯ VẤN / LÁI THỬ</h2>
+            <form id="customerForm">
+                <input type="text" id="name" placeholder="Họ và tên của bạn" required style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="tel" id="phone" placeholder="Số điện thoại liên hệ" required style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+                <select id="car" style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="Mazda CX5">Quan tâm: Mazda CX5</option>
+                    <option value="Mazda 3">Quan tâm: Mazda 3</option>
+                    <option value="Mazda BT50">Quan tâm: Mazda BT50</option>
+                </select>
+                <button type="submit" style="width: 100%; padding: 15px; background: #8b5a5a; color: white; border: none; font-weight: bold; font-size: 16px; border-radius: 4px; cursor: pointer;">GỬI THÔNG TIN</button>
+            </form>
+        </div>
 
+        <script>
+            document.getElementById('customerForm').addEventListener('submit', function(e) {
+                e.preventDefault(); // Ngăn trình duyệt tự tải lại trang khi bấm gửi
+
+                // Lấy dữ liệu người dùng nhập
+                const data = {
+                    name: document.getElementById('name').value,
+                    phone: document.getElementById('phone').value,
+                    car: document.getElementById('car').value
+                };
+
+                // Gọi API gửi lên Node.js
+                fetch('http://localhost:3000/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message); // Hiển thị popup thông báo từ server
+                    document.getElementById('customerForm').reset(); // Xóa trắng form để nhập người mới
+                })
+                .catch(error => {
+                    alert('Lỗi: Không thể kết nối đến máy chủ. Hãy chắc chắn Server Backend đang chạy!');
+                });
+            });
+        </script>
         <footer class="site-footer">
             <p>Công ty TNHH Mazda</p>
             <p>SĐT:09899999999</p>
